@@ -1,11 +1,13 @@
-import { fetchMovies } from '@/actions/api';
-import { useFetch } from '@/actions/hooks/useFetch';
 import { icons } from '@/assets/constants/icons';
 import { images } from '@/assets/constants/images';
+import MovieCard from '@/components/MovieCard';
 import SearchBar from '@/components/SearchBar';
+import { moviesResults } from '@/constant/mockData';
 import { useRouter } from 'expo-router';
+import { useState } from 'react';
 import {
   ActivityIndicator,
+  FlatList,
   Image,
   ScrollView,
   StatusBar,
@@ -15,7 +17,10 @@ import {
 
 export default function Index() {
   const router = useRouter();
-  const { data, isLoading, error } = useFetch(() => fetchMovies(''));
+  const [movies, setMovies] = useState(moviesResults);
+  const [isLoading, setisLoading] = useState(false);
+  const [error, setError] = useState(false);
+
   return (
     <View className="flex-1 bg-primary ">
       <StatusBar backgroundColor={'#030014'} barStyle={'default'} translucent />
@@ -36,7 +41,7 @@ export default function Index() {
             className="mt-10 self-center"
           />
         ) : error ? (
-          <Text className="text-3xl text-white">error: {error?.message}</Text>
+          <Text className="text-3xl text-white">error: </Text>
         ) : (
           <View>
             <SearchBar
@@ -47,6 +52,20 @@ export default function Index() {
             <Text className="text-lg text-white font-bold  mt-5 mb-3">
               Latest Movies
             </Text>
+            {/*  */}
+            <FlatList
+              data={movies}
+              renderItem={({ item }) => <MovieCard {...item} />}
+              keyExtractor={item => item.id.toString()}
+              numColumns={3}
+              columnWrapperStyle={{
+                justifyContent: 'flex-start',
+                gap: 20,
+                paddingRight: 4,
+                marginBottom: 10,
+              }}
+              scrollEnabled={false}
+            />
           </View>
         )}
 

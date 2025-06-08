@@ -18,6 +18,7 @@ export const useFetch = <T>(
       // @ts-expect-error
       // const result = await data.json();
 
+      console.log(data);
       setData(data);
     } catch (error) {
       console.log({ error });
