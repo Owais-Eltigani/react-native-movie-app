@@ -11,7 +11,6 @@ import {
   FlatList,
   Image,
   ScrollView,
-  StatusBar,
   Text,
   View,
 } from 'react-native';
@@ -43,7 +42,6 @@ export default function Search() {
 
   return (
     <View className="flex-1 bg-primary ">
-      <StatusBar backgroundColor={'#030014'} barStyle={'default'} translucent />
       <Image source={images.bg} className="absolute w-full z-2" />
       <ScrollView
         className="flex-1 px-5"
@@ -71,9 +69,10 @@ export default function Search() {
 
               <View className="my-6">
                 <SearchBar
-                  placeholderText="Search for a movie"
+                  placeHolder="Search for a movie"
                   value={searchTerm}
                   onchange={text => setSearchTerm(text)}
+                  type={true}
                 />
               </View>
 

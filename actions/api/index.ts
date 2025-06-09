@@ -27,7 +27,7 @@ export const fetchMovies = async (query: string) => {
       }
     ); //! if any problem happend use {} config instead.
     const result = await data.json();
-    return result;
+    return result.results;
   } catch (error) {
     // @ts-expect-error
     console.log(error);
@@ -35,4 +35,26 @@ export const fetchMovies = async (query: string) => {
   }
 };
 
-// fetchMovies('');
+export const fetchMovieDetails = async (
+  movieId: string
+): Promise<MovieDetails> => {
+  try {
+    const response = await fetch(
+      `${TMDP_CONFIG.base_url}/movie/${movieId}?api_key=${process.env.EXPO_PUBLIC_API_Read_Access_Token}`,
+      {
+        method: 'GET',
+        headers: TMDP_CONFIG.headers,
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error(`Failed to fetch movie details: ${response.statusText}`);
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error('Error fetching movie details:', error);
+    throw error;
+  }
+};

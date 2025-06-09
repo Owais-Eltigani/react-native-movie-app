@@ -18,7 +18,7 @@ export const useFetch = <T>(
       const data = await fetchFunction();
       // @ts-expect-error
 
-      setData(data.results);
+      setData(data);
     } catch (error) {
       console.log({ error });
       setError(error);
