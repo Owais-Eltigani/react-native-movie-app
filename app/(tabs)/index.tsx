@@ -1,10 +1,10 @@
+import { fetchMovies } from '@/actions/api';
+import { useFetch } from '@/actions/hooks/useFetch';
 import { icons } from '@/assets/constants/icons';
 import { images } from '@/assets/constants/images';
 import MovieCard from '@/components/MovieCard';
 import SearchBar from '@/components/SearchBar';
-import { moviesResults } from '@/constant/mockData';
 import { useRouter } from 'expo-router';
-import { useState } from 'react';
 import {
   ActivityIndicator,
   FlatList,
@@ -17,9 +17,10 @@ import {
 
 export default function Index() {
   const router = useRouter();
-  const [movies, setMovies] = useState(moviesResults);
-  const [isLoading, setisLoading] = useState(false);
-  const [error, setError] = useState(false);
+
+  const { movies, isLoading, error } = useFetch(() => fetchMovies(''));
+
+  // console.log('data', data);
 
   return (
     <View className="flex-1 bg-primary ">
@@ -41,10 +42,11 @@ export default function Index() {
             className="mt-10 self-center"
           />
         ) : error ? (
-          <Text className="text-3xl text-white">error: </Text>
+          <Text className="text-3xl text-white">error: {error?.message}</Text>
         ) : (
           <View>
             <SearchBar
+              value=""
               placeholderText={'search a movie'}
               onPress={() => router.push('/search')}
             />

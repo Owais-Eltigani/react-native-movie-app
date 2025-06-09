@@ -11,15 +11,14 @@ export const useFetch = <T>(
   const fetchData = async () => {
     try {
       setIsLoading(true);
+
       setError(null);
 
       //
       const data = await fetchFunction();
       // @ts-expect-error
-      // const result = await data.json();
 
-      console.log(data);
-      setData(data);
+      setData(data.results);
     } catch (error) {
       console.log({ error });
       setError(error);
@@ -40,5 +39,5 @@ export const useFetch = <T>(
     }
   }, []);
 
-  return { data, isLoading, error, fetchData, reset };
+  return { movies: data, isLoading, error, fetchData, reset };
 };
